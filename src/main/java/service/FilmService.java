@@ -65,7 +65,7 @@ public class FilmService {
     	return a;
     }
 
-    @POST
+    @GET
     @Path("{id}/actors/{idActor}")
     @Consumes({"application/xml", "application/json"})
     public void addActor(@PathParam("id") Integer id, @PathParam("idActor") Integer idA) {
