@@ -1,0 +1,28 @@
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'eclipse'
+
+repositories {
+	  mavenCentral() 
+}
+	  
+dependencies{
+	compile 'javax:javaee-api:7.0'
+	compile 'javax.ws.rs:javax.ws.rs-api:2.0.1'
+	compile 'mysql:mysql-connector-java:5.1.30'
+	testCompile 'org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-simple:2.17'
+	testCompile 'javax.servlet:javax.servlet-api:3.1.0'
+}
+
+sourceSets.all {
+    output.resourcesDir = output.classesDir
+}
+
+war {
+    from 'src/main/webapp' // adds a file-set to the root of the archive
+    webInf { from 'src/main/webapp/WEB-INF' } // adds a file-set to the WEB-INF dir.
+    //classpath fileTree('src/main/webapp/WEB-INF/lib') // adds a file-set to the WEB-INF/lib dir.
+    //classpath fileTree('src/main/java/META-INF/persistence.xml')
+    //sclasspath configurations.moreLibs // adds a configuration to the WEB-INF/lib dir.
+    webXml = file('src/main/webapp/WEB-INF/web.xml') // copies a file to WEB-INF/web.xml
+}
