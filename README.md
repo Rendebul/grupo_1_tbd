@@ -1,2 +1,6 @@
-# grupo_1_tbd
-Implementación de Java EE
+# sakila-backend
+
+# Trabajo de TBD - 2 - 2016
+
+# Implementación de Observatorio
+
