@@ -23,6 +23,7 @@ import com.mongodb.Mongo;
 import com.mongodb.MongoException;
 
 import model.MongoModel;
+import model.TweetModel;
 
 @Path("/twitter")
 public class MongoSearchService { 
@@ -36,7 +37,7 @@ public class MongoSearchService {
     @GET
     @Path("Lolla")
     @Produces({"application/xml", "application/json"})
-    public CommandResult findLolla(){
+    public List<TweetModel> findLolla(){
         MongoModel mongo = new MongoModel();
         return mongo.searchLolla();
     }
