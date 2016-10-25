@@ -30,16 +30,41 @@ public class MongoSearchService {
     
     @GET
     @Produces({"application/xml", "application/json"})
-    public String findAll(){
-        return "Hola";
+    public List<TweetModel> findAll(){
+        //MongoModel mongo = new MongoModel();
+        return MongoModel.getInstance().search("Defqon1");
     }
 
-    @GET
-    @Path("Lolla")
+    /*@GET
+    @Path("Lollapalooza")
     @Produces({"application/xml", "application/json"})
     public List<TweetModel> findLolla(){
         MongoModel mongo = new MongoModel();
-        return mongo.searchLolla();
+        return mongo.search("Lollapalooza");
     }
-    
+
+    @GET
+    @Path("Creamfields")
+    @Produces({"application/xml", "application/json"})
+    public List<TweetModel> findCreamfield(){
+        MongoModel mongo = new MongoModel();
+        return mongo.search("Creamfields");
+    }*/
+
+    @GET
+    @Path("{concierto}")
+    @Produces({"application/xml", "application/json"})
+    public List<TweetModel> findConcierto(@PathParam("concierto") String concierto){
+        //MongoModel mongo = new MongoModel();
+        return MongoModel.getInstance().search(concierto);
+    }     
+
+    @GET
+    @Path("{concierto}/concepto/{concepto}")
+    @Produces({"application/xml", "application/json"})
+    public List<TweetModel> findConciertoConcepto(@PathParam("concierto") String concierto, @PathParam("concepto") String concepto){
+        //MongoModel mongo = new MongoModel();
+        return MongoModel.getInstance().searchConcepto(concierto, concepto);
+    }
+
 }
