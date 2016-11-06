@@ -22,7 +22,6 @@ public class Rol implements Serializable {
 
     @Column(name="rol_name", nullable=false, length=45)
     private String rolName;
-
     
     @OneToMany(mappedBy="rol")
     private Collection<User> userCollection;
