@@ -33,11 +33,8 @@ public class User implements Serializable {
     private String password;
 
     @ManyToOne
-    @JoinColumn(name="rol_id")
+    @JoinColumn(name="id_rol")
     private Rol rol;
-
-    @Column(name="id_nationality")
-    private int idNationality;
 
     @JoinTable(name="user_artist" , 
             joinColumns = { 
