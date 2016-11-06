@@ -13,41 +13,41 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-import facade.ArtistFacade;
-import model.Artist;
+import facade.FestivalFacade;
+import model.Festival;
 
-@Path("/artistas")
-public class ArtistService {
+@Path("/festivales")
+public class FestivalService {
     
     @EJB 
-    ArtistFacade artistFacadeEJB;
+    FestivalFacade festivalFacadeEJB;
 
-    Logger logger = Logger.getLogger(ArtistService.class.getName());
+    Logger logger = Logger.getLogger(FestivalService.class.getName());
     
     @GET
     @Produces({"application/xml", "application/json"})
-    public List<Artist> findAll(){
-        return artistFacadeEJB.findAll();
+    public List<Festival> findAll(){
+        return festivalFacadeEJB.findAll();
     }
     
     @GET
     @Path("{id}")
     @Produces({"application/xml", "application/json"})
-    public Artist find(@PathParam("id") Integer id) {
-        return artistFacadeEJB.find(id);
+    public Festival find(@PathParam("id") Integer id) {
+        return festivalFacadeEJB.find(id);
     }
     
     @POST
     @Consumes({"application/xml", "application/json"})
-    public void create(Artist entity) {
-        artistFacadeEJB.create(entity);
+    public void create(Festival entity) {
+        festivalFacadeEJB.create(entity);
     }
 
     @PUT
     @Path("{id}")
     @Consumes({"application/xml", "application/json"})
-    public void edit(@PathParam("id") Integer id, Artist entity) {
-        entity.setArtistId(id.intValue());
-        artistFacadeEJB.edit(entity);
+    public void edit(@PathParam("id") Integer id, Festival entity) {
+        entity.setFestivalId(id.intValue());
+        festivalFacadeEJB.edit(entity);
     }
 }
