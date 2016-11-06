@@ -24,7 +24,7 @@ public class Nationality implements Serializable {
     private String country;
 
     
-    @OneToMany(mappedBy="department")
+    @OneToMany(mappedBy="nationality")
     private Collection<Artist> artistCollection;
 
     public Nationality() {

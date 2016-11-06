@@ -24,7 +24,7 @@ public class Artist implements Serializable {
     private String artistName;
 
     @ManyToOne
-    @JoinColumn(name="nationality_id")
+    @JoinColumn(name="id_nationality")
     private Nationality nationality;
 
     @JoinTable(name="festival_artist" , 
