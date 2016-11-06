@@ -15,6 +15,7 @@ import javax.ws.rs.Produces;
 
 import facade.FestivalFacade;
 import model.Festival;
+import model.Artist;
 
 @Path("/festivales")
 public class FestivalService {
@@ -49,5 +50,13 @@ public class FestivalService {
     public void edit(@PathParam("id") Integer id, Festival entity) {
         entity.setFestivalId(id.intValue());
         festivalFacadeEJB.edit(entity);
+    }
+
+    @GET
+    @Path("{id}/artistas")
+    @Produces({"application/xml", "application/json"})
+    public Collection<Artist> findArtist(@PathParam("id") Integer id) {
+        Festival festival = festivalFacadeEJB.find(id);
+        return festival.getArtistCollection();
     }
 }

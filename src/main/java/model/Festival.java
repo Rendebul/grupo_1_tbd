@@ -72,4 +72,8 @@ public class Festival implements Serializable {
     public void setFilters(String filters) {
         this.filters = filters;
     }
+
+    public Collection<Artist> getArtistCollection() {
+        return this.artistCollection;
+    }
 }
