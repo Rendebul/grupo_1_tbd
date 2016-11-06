@@ -51,6 +51,37 @@ public class MongoModel    {
             DBObject document = cursor.next();
             TweetModel data = new TweetModel();
             data.setText((String) document.get("text"));
+            data.setCreatedAt((String) document.get("created_at"));
+            if(document.get("in_reply_to_status_id") != null)
+                data.setInReplyToStatusId((long) document.get("in_reply_to_status_id"));
+            if(document.get("in_reply_to_status_id_str") != null)
+                data.setInReplyToStatusIdStr((String) document.get("in_reply_to_status_id_str"));
+            if((document.get("favorite_count")) != null)
+                data.setFavoriteCount((int) document.get("favorite_count"));
+            if((document.get("favorited")) != null)
+                data.setFavorited((boolean) document.get("favorited"));
+            data.setFilterLevel((String) document.get("filter_level"));
+            /*//data.setId((long) document.get("id"));
+            if(document.get("in_reply_to_screen_name") != null)
+                data.setInReplyToScreenName((String) document.get("in_reply_to_screen_name"));
+            if(document.get("in_reply_to_user_id") != null)
+                data.setInReplyToUserId((long) document.get("in_reply_to_user_id"));
+            if(document.get("in_reply_to_user_id_str") != null)
+                data.setInReplyToUserIdStr((String) document.get("in_reply_to_user_id_str"));*/
+            if(document.get("lang") != null)
+                data.setLang((String) document.get("lang"));
+            if(document.get("possibly_sensitive") != null)
+                data.setPossiblySensitive((boolean) document.get("possibly_sensitive"));
+            if(document.get("quoted_status_id") != null)
+                data.setQuotedStatusId((long) document.get("quoted_status_id"));
+            if(document.get("quoted_status_id_str") != null)
+                data.setQuotedStatusIdStr((String) document.get("quoted_status_id_str"));
+            //if(document.get("retweet_count") != null)
+              //  data.setRetweetCount((int) document.get("retweet_count"));
+            data.setRetweeted((boolean) document.get("retweeted"));
+            data.setSource((String) document.get("source"));
+            data.setTruncated((boolean) document.get("truncated"));
+
             list.add(data);
         }
 

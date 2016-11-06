@@ -14,7 +14,8 @@ public class TweetModel {
     private int favoriteCount;
     private boolean favorited;
     private String filterLevel;
-    private String id;
+    private long id;
+    private String idStr;
     private String inReplyToScreenName;
     private long inReplyToUserId;
     private String inReplyToUserIdStr;
@@ -78,7 +79,7 @@ public class TweetModel {
     	return this.favoriteCount;
     }
 
-    public void setFavoriteCount()
+    public void setFavoriteCount(int favoriteCount)
     {
     	this.favoriteCount = favoriteCount;
     }
@@ -103,14 +104,24 @@ public class TweetModel {
     	this.filterLevel = level;
     }
 
-    public String getId()
+    public long getId()
     {
     	return this.id;
     }
 
-    public void setId(String id)
+    public void setId(long id)
     {
     	this.id = id;
+    }
+
+	public String getIdStr()
+    {
+    	return this.idStr;
+    }
+
+    public void setIdStr(String id)
+    {
+    	this.idStr = id;
     }
 
     public String getInReplyToScreenName()
