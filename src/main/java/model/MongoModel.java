@@ -27,15 +27,7 @@ public class MongoModel    {
 
     private static MongoModel INSTANCE;
 
-    public static MongoModel getInstance(){
-        if (INSTANCE == null){
-            INSTANCE = new MongoModel();
-            return INSTANCE;
-        }else
-            return INSTANCE;
-    }
-
-    private MongoModel() {
+    public MongoModel() {
         this.mongo = new Mongo("localhost", 27017);
         this.textSearchCommand = new BasicDBObject();
         this.db = mongo.getDB("tbd");
@@ -43,9 +35,9 @@ public class MongoModel    {
 
     }
     
-    public List<TweetModel> search(String concierto) {
+    public List<TweetModel> search(Festival concierto) {
         List<TweetModel> list = new ArrayList<>();
-        String searchString = this.selectBase(concierto);
+        String searchString = concierto.getFilters();
         DBCursor cursor = this.collection.find(new BasicDBObject("$text", new BasicDBObject("$search", searchString)));
         while (cursor.hasNext()) {
             DBObject document = cursor.next();
@@ -88,9 +80,9 @@ public class MongoModel    {
         return list;     
     }
 
-    public List<TweetModel> searchDate(String concierto, String str_date){
+    public List<TweetModel> searchDate(Festival concierto, String str_date){
         List<TweetModel> list = new ArrayList<>();
-        String searchString = this.selectBase(concierto);
+        String searchString = concierto.getFilters();
         try {
             DateFormat formatter;
             formatter = new SimpleDateFormat("dd-MM-yyyy-HH-mm-ss");
@@ -111,9 +103,9 @@ public class MongoModel    {
         }
     }
 
-    public List<TweetModel> searchConcepto(String concierto, String concepto) {
+    public List<TweetModel> searchConcepto(Festival concierto, String concepto) {
         List<TweetModel> list = new ArrayList<>();
-        String searchString = this.selectBase(concierto);
+        String searchString = concierto.getFilters();
         concepto = concepto.replace("+"," ");
         BasicDBObject busqueda = new BasicDBObject("$text", new BasicDBObject("$search", searchString));
         busqueda.append("$text", new BasicDBObject("$search", concepto));
@@ -124,21 +116,19 @@ public class MongoModel    {
             data.setText((String) document.get("text"));
             list.add(data);
         }
+
         return list;     
     }
 
-    public String selectBase(String concierto) {
-        if (concierto.equals("Lollapalooza")) {
-            return "LollaCL @lollapaloozacl PreguntaLollaCL RPLollaWeekend /Lollapalooza versión Chile2017/ lollapaloozachile2017 RPLolla LollaCL2017";  
-        } else if (concierto.equals("Creamfields")) {
-            return "CreamfieldsCL2016 CreamfieldsChile creamfieldsCL";
-        } else if (concierto.equals("Defqon1")){
-            return "Defqon1Chile DEFQON1 Defqon1CL defqon1chile2016 DEFQON12016 DefqonChile";
-        } else if (concierto.equals("Fauna")){
-            return "FaunaPrimavera FaunaPrimavera PrimaveraFauna FaunaPrimaveraFest pf2016";
-        } else {
-            return "";
-        }
+    public long contarFestival(Festival concierto) {
+        List<TweetModel> list = new ArrayList<>();
+        String searchString = concierto.getFilters();
+        long contar = this.collection.count(new BasicDBObject("$text", new BasicDBObject("$search", searchString)));
+        return contar;   
+    }
+
+    public void closeConnection() {
+        this.mongo.close();
     }
 
 }

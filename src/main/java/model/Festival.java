@@ -46,6 +46,12 @@ public class Festival implements Serializable {
     @ManyToMany 
     private Collection<User> userCollection;
 
+    @Column(name="start_date", nullable=false)
+    private Timestamp startDate;
+
+    @Column(name="end_date", nullable=false)
+    private Timestamp endDate;
+
     public Festival() {
     }
 
@@ -76,4 +82,20 @@ public class Festival implements Serializable {
     public Collection<Artist> getArtistCollection() {
         return this.artistCollection;
     }
+
+    public void setStartDate(Timestamp startDate) {
+        this.startDate = startDate;
+    }
+
+    public Timestamp getStartDate() {
+        return this.startDate;
+    } 
+
+    public void setEndDate(Timestamp endDate) {
+        this.endDate = endDate;
+    }
+
+    public Timestamp getEndDate() {
+        return this.endDate;
+    } 
 }
