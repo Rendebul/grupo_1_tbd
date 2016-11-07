@@ -74,4 +74,9 @@ public class Artist implements Serializable {
         this.nationality = nationality;
     }
 
+    public Collection<Festival> getFestivalCollection()
+    {
+        return this.festivalCollection;
+    }
+
 }

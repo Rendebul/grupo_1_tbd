@@ -14,13 +14,18 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import facade.ArtistFacade;
+import facade.FestivalFacade;
 import model.Artist;
+import model.Festival;
 
 @Path("/artistas")
 public class ArtistService {
     
     @EJB 
     ArtistFacade artistFacadeEJB;
+
+    @EJB
+    FestivalFacade festivalFacadeEJB;
 
     Logger logger = Logger.getLogger(ArtistService.class.getName());
     
@@ -49,5 +54,13 @@ public class ArtistService {
     public void edit(@PathParam("id") Integer id, Artist entity) {
         entity.setArtistId(id.intValue());
         artistFacadeEJB.edit(entity);
+    }
+
+    @GET
+    @Path("{id}/festivales")
+    @Produces({"application/xml", "application/json"})
+    public Collection<Festival> findArtist(@PathParam("id") Integer id) {
+        Artist artist = artistFacadeEJB.find(id);
+        return artist.getFestivalCollection();
     }
 }
