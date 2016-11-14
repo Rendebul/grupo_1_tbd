@@ -18,6 +18,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Calendar;
 
 public class MongoModel    {
     private Mongo mongo;
@@ -32,9 +33,20 @@ public class MongoModel    {
         this.textSearchCommand = new BasicDBObject();
         this.db = mongo.getDB("tbd");
         this.collection = db.getCollection("tweets");
-
     }
     
+    public void convertirFechas()
+    {
+        DBCursor cursor = this.collection.find();
+        while(cursor.hasNext())
+        {
+            DBObject document = cursor.next();
+            DBObject updated = new BasicDBObject();
+            updated.put("$set", new BasicDBObject("created_at", new Date((String)document.get("created_at"))));
+            this.collection.update(document, updated);
+        }
+    }
+
     public List<TweetModel> search(Festival concierto) {
         List<TweetModel> list = new ArrayList<>();
         String searchString = concierto.getFilters();
@@ -43,7 +55,8 @@ public class MongoModel    {
             DBObject document = cursor.next();
             TweetModel data = new TweetModel();
             data.setText((String) document.get("text"));
-            data.setCreatedAt((String) document.get("created_at"));
+            //por alguna razon no castea la fecha como string ni date
+            //data.setCreatedAt((Date)document.get("created_at"));
             if(document.get("in_reply_to_status_id") != null)
                 data.setInReplyToStatusId((long) document.get("in_reply_to_status_id"));
             if(document.get("in_reply_to_status_id_str") != null)
@@ -80,15 +93,24 @@ public class MongoModel    {
         return list;     
     }
 
-    public List<TweetModel> searchDate(Festival concierto, String str_date){
+    public List<TweetModel> searchDate(Festival concierto, String fecha){
         List<TweetModel> list = new ArrayList<>();
         String searchString = concierto.getFilters();
+
         try {
             DateFormat formatter;
-            formatter = new SimpleDateFormat("dd-MM-yyyy-HH-mm-ss");
-            Date date = (Date) formatter.parse(str_date);
-            java.sql.Timestamp timeStampDate = new Timestamp(date.getTime());
-            BasicDBObject busqueda = new BasicDBObject("timestamp_ms", timeStampDate );
+            formatter = new SimpleDateFormat("yyyy-MM-dd");
+            Date dateInicio = (Date) formatter.parse(fecha);
+            Calendar c = Calendar.getInstance();
+            c.setTime(formatter.parse(fecha));
+            c.add(Calendar.DATE, 1);  // agrega 1 dia a fecha inicio
+            Date dateFin = formatter.parse(formatter.format(c.getTime()));  // fechafin = fechainicio + 1 dia
+            //Date dateFin = (Date) formatter.parse(fechaInicio);
+            //java.sql.Timestamp timeStampDate = new Timestamp(date.getTime());
+
+            //busca todos los tweets entre fecha inicio y fecha fin
+            BasicDBObject busqueda = new BasicDBObject("created_at", new BasicDBObject("$gte", dateInicio)
+                .append("$lte", dateFin));
             busqueda.append("$text", new BasicDBObject("$search", searchString));
             DBCursor cursor = this.collection.find(busqueda);
             while (cursor.hasNext()) {

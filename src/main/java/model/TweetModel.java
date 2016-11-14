@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 
 
 public class TweetModel {
@@ -10,7 +11,7 @@ public class TweetModel {
     private String text;
     private long inReplyToStatusId;
     private String inReplyToStatusIdStr;
-    private String createdAt;
+    private Date createdAt;
     private int favoriteCount;
     private boolean favorited;
     private String filterLevel;
@@ -64,12 +65,12 @@ public class TweetModel {
     	return this.inReplyToStatusId;
     }
 
-    public void setCreatedAt(String ca)
+    public void setCreatedAt(Date ca)
     {
     	this.createdAt = ca;
     }
 
-    public String getCreatedAt()
+    public Date getCreatedAt()
     {
     	return this.createdAt;
     }

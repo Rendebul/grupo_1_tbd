@@ -76,4 +76,17 @@ public class MongoSearchService {
         return mongo.searchConcepto(festival, concepto);
     }
 
+    @GET
+    @Path("{concierto}/{fecha}")
+    @Produces({"application/xml", "application/json"})
+    public List<TweetModel> findConciertoFecha(@PathParam("concierto") Integer concierto, @PathParam("fecha") String fecha)
+    {
+        MongoModel mongo = new MongoModel();
+        Festival festival = festivalFacadeEJB.find(concierto);
+        //String words[] = fecha.split(".");
+        //String fechaInicio = words[0];
+        //String fechaFin = words[1];
+        return mongo.searchDate(festival, fecha);
+    }
+
 }
