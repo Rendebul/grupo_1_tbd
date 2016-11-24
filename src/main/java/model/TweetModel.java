@@ -36,6 +36,17 @@ public class TweetModel {
     private List<ContributorModel> contributors;
     private UserModel user;
     private PlaceModel place;
+    private double emoteScore;
+
+    public void setEmoteScore(double emoteScore)
+    {
+        this.emoteScore = emoteScore;
+    }
+
+    public double getEmoteScore()
+    {
+        return this.emoteScore;
+    }
 
     public void setText(String text){
         this.text = text;
