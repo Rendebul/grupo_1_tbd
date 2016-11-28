@@ -3,6 +3,7 @@ package service;
 import java.util.List;
 import java.util.Collection;
 import java.util.logging.Logger;
+import java.io.*;
 
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
@@ -36,7 +37,34 @@ public class UserService {
     public User find(@PathParam("id") Integer id) {
         return userFacadeEJB.find(id);
     }
-    
+
+    /*
+    *Inicio codigo crear nodos usuarios
+    *Asegurarse de tener neo4j y mongo abiertos y el repo descargado y editado con su usuario de neo4j
+    *La direccion despues del cd probablemente cambie dependiendo de donde descarguen el repo
+    */
+    @GET
+    @Path("crearNodos")
+    @Produces("text/plain")
+    public String createNodes() {
+        String s;
+        Process p;
+        try {
+            p = Runtime.getRuntime().exec("cd Desktop/git/mongo_to_neo4j_TBD/ && java -cp build/libs/mongo_to_neo4j_TBD-1.0.jar cl.citiaps.neo4j.main.Main");
+            BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            while ((s = br.readLine()) != null)
+                System.out.println("line: " + s);
+            p.waitFor();
+            System.out.println ("exit: " + p.exitValue());
+            p.destroy();
+        } catch (Exception e) {}
+        return "Base de datos Neo4j con usuarios y sus relaciones creado";
+    }
+    /*
+    *Se demora unos 30 seg en crear todo
+    *Fin codigo crear nodos usuarios
+    */
+
     @POST
     @Consumes({"application/xml", "application/json"})
     public void create(User entity) {
