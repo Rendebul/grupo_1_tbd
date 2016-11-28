@@ -6,7 +6,7 @@ import java.util.List;
 import static java.util.Arrays.asList;
 import java.util.*;
 
-
+import org.bson.Document;
 import com.mongodb.BasicDBObject;
 import com.mongodb.CommandResult;
 import com.mongodb.DB;
@@ -14,6 +14,9 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import com.mongodb.MongoException;
 
 import java.sql.Timestamp;
@@ -27,7 +30,7 @@ import java.util.GregorianCalendar;
 
 public class MongoModel    {
     private Mongo mongo;
-    private  DB db;
+    private DB db;
     private DBObject textSearchCommand;
     private DBCollection collection;
 
@@ -38,7 +41,7 @@ public class MongoModel    {
         this.textSearchCommand = new BasicDBObject();
         this.db = mongo.getDB("tbd");
         this.collection = db.getCollection("tweets");
-        agregarEmoteScore();
+        //agregarEmoteScore();
     }
     
     public void convertirFechas()
@@ -231,6 +234,18 @@ public class MongoModel    {
         cal.add(Calendar.DATE, days);
                 
         return cal.getTime();
+    }
+
+    public DBCollection getCollection() {
+        return this.collection;
+    }
+
+    public MongoCollection<Document> getMongoCollection() {
+        MongoClient mongoClient = new MongoClient("localhost", 27017);
+        MongoDatabase db = mongoClient.getDatabase("tbd");
+        MongoCollection<Document> coleccion = db.getCollection("tweets");
+        //mongoClient.close();
+        return coleccion;
     }
 
 }

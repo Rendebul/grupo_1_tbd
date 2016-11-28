@@ -16,6 +16,7 @@ import javax.ws.rs.Produces;
 
 import facade.UserFacade;
 import model.User;
+import model.Neo4jModel;
 
 @Path("/usuarios")
 public class UserService {
@@ -47,17 +48,12 @@ public class UserService {
     @Path("crearNodos")
     @Produces("text/plain")
     public String createNodes() {
-        String s;
-        Process p;
+        Neo4jModel n4 = new Neo4jModel();
         try {
-            p = Runtime.getRuntime().exec("cd Desktop/git/mongo_to_neo4j_TBD/ && java -cp build/libs/mongo_to_neo4j_TBD-1.0.jar cl.citiaps.neo4j.main.Main");
-            BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            while ((s = br.readLine()) != null)
-                System.out.println("line: " + s);
-            p.waitFor();
-            System.out.println ("exit: " + p.exitValue());
-            p.destroy();
-        } catch (Exception e) {}
+            n4.crearGrafos();
+        } catch (IOException e) {
+            return "Error";
+        }
         return "Base de datos Neo4j con usuarios y sus relaciones creado";
     }
     /*

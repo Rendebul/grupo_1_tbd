@@ -325,5 +325,4 @@ public class TweetModel {
     {
         this.place = place;
     }
-
 }
