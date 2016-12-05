@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Collection;
 import java.util.logging.Logger;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
@@ -59,6 +61,36 @@ public class UserService {
     /*
     *Se demora unos 30 seg en crear todo
     *Fin codigo crear nodos usuarios
+    */
+
+    /*
+    **Inicio codigo obtener usuarios leaders
+    */
+    @GET
+    @Path("leaders")
+    @Produces({"application/xml", "application/json"})
+    public ArrayList<String> getLeaders() {
+        Neo4jModel n4Leaders = new Neo4jModel();
+        
+        return n4Leaders.getLeaders();
+    }
+    /*
+    **Fin codigo obtener usuarios leaders
+    */
+
+    /*
+    **Inicio codigo obtener usuarios spreaders
+    */
+    @GET
+    @Path("spreaders")
+    @Produces({"application/xml", "application/json"})
+    public ArrayList<String> getSpreaders() {
+        Neo4jModel n4Spreaders = new Neo4jModel();
+        
+        return n4Spreaders.getSpreaders();
+    }
+    /*
+    **Fin codigo obtener usuarios spreaders
     */
 
     @POST
