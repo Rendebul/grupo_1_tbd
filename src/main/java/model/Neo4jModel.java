@@ -34,7 +34,33 @@ public class  Neo4jModel{
 			driver.close();
 
 		}
-		
+
+
+		public ArrayList<String> getLeaders()  {
+			@SuppressWarnings("resource")			
+			
+			Driver driver = GraphDatabase.driver( "bolt://localhost", AuthTokens.basic( "neo4j", "matias" ) );
+			Session session = driver.session();
+
+			TwitterProcessorModel twitterProcessorModel = new TwitterProcessorModel();
+			ArrayList<String> usersLeaders = new ArrayList();
+			usersLeaders = twitterProcessorModel.getLeaders(session);
+
+			return(usersLeaders);
+		}
+
+		public ArrayList<String> getSpreaders() {
+			@SuppressWarnings("resource")			
+			
+			Driver driver = GraphDatabase.driver( "bolt://localhost", AuthTokens.basic( "neo4j", "matias" ) );
+			Session session = driver.session();
+
+			TwitterProcessorModel twitterProcessorModel = new TwitterProcessorModel();
+			ArrayList<String> usersSpreaders = new ArrayList();
+			usersSpreaders = twitterProcessorModel.getSpreaders(session);
+
+			return(usersSpreaders);
+		}
 	
 
 }

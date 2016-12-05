@@ -189,6 +189,30 @@ public class TwitterProcessorModel{
 			}
 		}
 	}
+
+	public ArrayList<String> getLeaders (Session session) {
+		String user;
+		ArrayList<String> leaders = new ArrayList<String>();
+		StatementResult result = session.run( String.format("MATCH (n)<-[*1..2]-(p) RETURN n as user, count(p) as alcance order by alcance desc LIMIT 10") );
+		if (result.hasNext()) {
+			Record record =result.next();
+			user = record.get("user").toString();
+			leaders.add(user);
+		}
+		return(leaders);
+	}
+
+	public ArrayList<String> getSpreaders (Session session)  {
+		String user;
+		ArrayList<String> spreaders = new ArrayList<String>();
+		StatementResult result = session.run( String.format("MATCH (n)-[*1..2]->(p) RETURN n as user, count(p) as alcance order by alcance desc LIMIT 10") );
+		if (result.hasNext()) {
+			Record record =result.next();
+			user = record.get("user").toString();
+			spreaders.add(user);
+		}
+		return(spreaders);
+	}
 }
 
 
