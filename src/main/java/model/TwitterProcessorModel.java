@@ -190,26 +190,28 @@ public class TwitterProcessorModel{
 		}
 	}
 
-	public ArrayList<String> getLeaders (Session session) {
+	public List<Tuitero> getLeaders (Session session) {
 		String user;
-		ArrayList<String> leaders = new ArrayList<String>();
+		List<Tuitero> leaders = new ArrayList<Tuitero>();
 		StatementResult result = session.run( String.format("MATCH (n)<-[*1..2]-(p) RETURN n as user, count(p) as alcance order by alcance desc LIMIT 10") );
 		if (result.hasNext()) {
 			Record record =result.next();
 			user = record.get("user").toString();
-			leaders.add(user);
+			Tuitero tuitero = new Tuitero(user);
+			leaders.add(tuitero);
 		}
 		return(leaders);
 	}
 
-	public ArrayList<String> getSpreaders (Session session)  {
+	public List<Tuitero> getSpreaders (Session session)  {
 		String user;
-		ArrayList<String> spreaders = new ArrayList<String>();
+		List<Tuitero> spreaders = new ArrayList<Tuitero>();
 		StatementResult result = session.run( String.format("MATCH (n)-[*1..2]->(p) RETURN n as user, count(p) as alcance order by alcance desc LIMIT 10") );
 		if (result.hasNext()) {
 			Record record =result.next();
 			user = record.get("user").toString();
-			spreaders.add(user);
+			Tuitero tuitero = new Tuitero(user);
+			spreaders.add(tuitero);
 		}
 		return(spreaders);
 	}

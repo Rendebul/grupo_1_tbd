@@ -18,6 +18,7 @@ import javax.ws.rs.Produces;
 
 import facade.UserFacade;
 import model.User;
+import model.Tuitero;
 import model.Neo4jModel;
 
 @Path("/usuarios")
@@ -69,7 +70,7 @@ public class UserService {
     @GET
     @Path("leaders")
     @Produces({"application/xml", "application/json"})
-    public ArrayList<String> getLeaders() {
+    public List<Tuitero> getLeaders() {
         Neo4jModel n4Leaders = new Neo4jModel();
         
         return n4Leaders.getLeaders();
@@ -84,7 +85,7 @@ public class UserService {
     @GET
     @Path("spreaders")
     @Produces({"application/xml", "application/json"})
-    public ArrayList<String> getSpreaders() {
+    public List<Tuitero> getSpreaders() {
         Neo4jModel n4Spreaders = new Neo4jModel();
         
         return n4Spreaders.getSpreaders();
