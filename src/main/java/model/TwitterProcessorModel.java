@@ -193,10 +193,12 @@ public class TwitterProcessorModel{
 	public List<Tuitero> getLeaders (Session session) {
 		String user;
 		List<Tuitero> leaders = new ArrayList<Tuitero>();
-		StatementResult result = session.run( String.format("MATCH (n)<-[*1..2]-(p) RETURN n as user, count(p) as alcance order by alcance desc LIMIT 10") );
+
+		StatementResult result = session.run( String.format("MATCH (n)<-[*1..2]-(p) RETURN n.screen_name as user, count(p) as alcance order by alcance desc LIMIT 10") );
 		if (result.hasNext()) {
 			Record record =result.next();
 			user = record.get("user").toString();
+			user=user.substring(2);
 			Tuitero tuitero = new Tuitero(user);
 			leaders.add(tuitero);
 		}
@@ -206,10 +208,19 @@ public class TwitterProcessorModel{
 	public List<Tuitero> getSpreaders (Session session)  {
 		String user;
 		List<Tuitero> spreaders = new ArrayList<Tuitero>();
-		StatementResult result = session.run( String.format("MATCH (n)-[*1..2]->(p) RETURN n as user, count(p) as alcance order by alcance desc LIMIT 10") );
+
+		session.run( String.format("MATCH (n) SET n.leader_score=0") );
+		session.run( String.format("MATCH (n)<-[*1..2]-(p) with count(p) as score, n as node SET node.leader_score=score") );
+		StatementResult result = session.run( String.format("MATCH (n)-[*1..2]->(p)
+		with n as node, count(p) as spreader_score, n.leader_score as leader_score
+		RETURN node.screen_name as user, (spreader_score*leader_score) as score
+		order by score desc
+		LIMIT 10") );
+
 		if (result.hasNext()) {
 			Record record =result.next();
 			user = record.get("user").toString();
+			user=user.substring(2);
 			Tuitero tuitero = new Tuitero(user);
 			spreaders.add(tuitero);
 		}
