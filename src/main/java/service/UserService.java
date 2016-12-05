@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.inject.Inject; 
 
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
@@ -15,6 +16,9 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.GenericEntity;  
+import javax.ws.rs.core.MediaType;  
+import javax.ws.rs.core.Response;
 
 import facade.UserFacade;
 import model.User;
@@ -69,11 +73,11 @@ public class UserService {
     */
     @GET
     @Path("leaders")
-    @Produces({"application/xml", "application/json"})
-    public List<Tuitero> getLeaders() {
+    @Produces({"MediaType.APPLICATION_JSON"})
+    public Response getLeaders() {
         Neo4jModel n4Leaders = new Neo4jModel();
-        
-        return n4Leaders.getLeaders();
+        GenericEntity<List<Tuitero>> leaders = new GenericEntity<List<Tuitero>>(n4Leaders.getLeaders()) {};
+        return Response.ok(leaders).build(); 
     }
     /*
     **Fin codigo obtener usuarios leaders
@@ -84,11 +88,11 @@ public class UserService {
     */
     @GET
     @Path("spreaders")
-    @Produces({"application/xml", "application/json"})
-    public List<Tuitero> getSpreaders() {
+    @Produces({"MediaType.APPLICATION_JSON"})
+    public Response getSpreaders() {
         Neo4jModel n4Spreaders = new Neo4jModel();
-        
-        return n4Spreaders.getSpreaders();
+        GenericEntity<List<Tuitero>> spreaders = new GenericEntity<List<Tuitero>>(n4Spreaders.getSpreaders()) {};
+        return Response.ok(spreaders).build(); 
     }
     /*
     **Fin codigo obtener usuarios spreaders
