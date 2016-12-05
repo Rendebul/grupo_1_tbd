@@ -211,11 +211,7 @@ public class TwitterProcessorModel{
 
 		session.run( String.format("MATCH (n) SET n.leader_score=0") );
 		session.run( String.format("MATCH (n)<-[*1..2]-(p) with count(p) as score, n as node SET node.leader_score=score") );
-		StatementResult result = session.run( String.format("MATCH (n)-[*1..2]->(p)
-		with n as node, count(p) as spreader_score, n.leader_score as leader_score
-		RETURN node.screen_name as user, (spreader_score*leader_score) as score
-		order by score desc
-		LIMIT 10") );
+		StatementResult result = session.run( String.format("MATCH (n)-[*1..2]->(p) with n as node, count(p) as spreader_score, n.leader_score as leader_score RETURN node.screen_name as user, (spreader_score*leader_score) as score order by score desc LIMIT 10") );
 
 		if (result.hasNext()) {
 			Record record =result.next();
