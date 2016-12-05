@@ -46,7 +46,9 @@ public class  Neo4jModel{
 			ArrayList<String> usersLeaders = new ArrayList();
 			usersLeaders = twitterProcessorModel.getLeaders(session);
 
-			return(usersLeaders);
+			session.close();
+			driver.close();
+			return usersLeaders;
 		}
 
 		public ArrayList<String> getSpreaders() {
@@ -59,7 +61,9 @@ public class  Neo4jModel{
 			ArrayList<String> usersSpreaders = new ArrayList();
 			usersSpreaders = twitterProcessorModel.getSpreaders(session);
 
-			return(usersSpreaders);
+			session.close();
+			driver.close();
+			return usersSpreaders;
 		}
 	
 
