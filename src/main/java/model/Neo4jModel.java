@@ -36,27 +36,29 @@ public class  Neo4jModel{
 		}
 
 
-		public ArrayList<String> getLeaders()  {
+		public List<Tuitero> getLeaders()  {
 			@SuppressWarnings("resource")			
 			
 			Driver driver = GraphDatabase.driver( "bolt://localhost", AuthTokens.basic( "neo4j", "matias" ) );
 			Session session = driver.session();
 
 			TwitterProcessorModel twitterProcessorModel = new TwitterProcessorModel();
-			ArrayList<String> usersLeaders = new ArrayList();
+
+			List<Tuitero> usersLeaders = new ArrayList<Tuitero>();
 			usersLeaders = twitterProcessorModel.getLeaders(session);
 
 			return(usersLeaders);
 		}
 
-		public ArrayList<String> getSpreaders() {
+		public List<Tuitero> getSpreaders() {
 			@SuppressWarnings("resource")			
 			
 			Driver driver = GraphDatabase.driver( "bolt://localhost", AuthTokens.basic( "neo4j", "matias" ) );
 			Session session = driver.session();
 
 			TwitterProcessorModel twitterProcessorModel = new TwitterProcessorModel();
-			ArrayList<String> usersSpreaders = new ArrayList();
+			
+			List<Tuitero> usersSpreaders = new ArrayList<Tuitero>();
 			usersSpreaders = twitterProcessorModel.getSpreaders(session);
 
 			return(usersSpreaders);
