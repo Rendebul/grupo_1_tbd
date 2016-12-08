@@ -30,7 +30,7 @@ public class TweetModel {
     private boolean truncated;
     private TweetModel quotedStatus;
     private TweetModel retweetedStatus;
-    private CoordenadasModel coordinates;
+    private List<Double> coordinates;
     private HashtagModel[] hashtags;
     private UserMentionModel[] userMentions;
     private List<ContributorModel> contributors;
@@ -266,12 +266,12 @@ public class TweetModel {
         this.retweetedStatus = tweet;
     }
 
-    public CoordenadasModel getCoordinates()
+    public List<Double> getCoordinates()
     {
         return this.coordinates;
     }
 
-    public void setCoordinates(CoordenadasModel coordinates)
+    public void setCoordinates(List<Double> coordinates)
     {
         this.coordinates = coordinates;
     }

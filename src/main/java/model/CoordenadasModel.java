@@ -10,11 +10,26 @@ public class CoordenadasModel
 	// primero longitud, despues latitud
 	private double x;
 	private double y;
-	private String type;
+	private List<Double> coordenadas;
 
-	public CoordenadasModel(double x, double y)
+
+	public void setCoordenadas(ArrayList coordenadas)
+	{
+		this.coordenadas = coordenadas;
+	}	
+
+	public List<Double> getCoordenadas()
+	{
+		return this.coordenadas;
+	}
+
+	public void setX(double x)
 	{
 		this.x = x;
+	}
+
+	public void setY(double y)
+	{
 		this.y = y;
 	}
 
