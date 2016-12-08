@@ -74,10 +74,13 @@ public class UserService {
     @GET
     @Path("leaders")
     @Produces({"application/xml", "application/json"})
-    public Response getLeaders() {
+    public List<Tuitero> getLeaders() {
+
         Neo4jModel n4Leaders = new Neo4jModel();
-        GenericEntity<List<Tuitero>> leaders = new GenericEntity<List<Tuitero>>(n4Leaders.getLeaders()) {};
-        return Response.ok(leaders).build(); 
+
+        List<Tuitero> lista = n4Leaders.getLeaders();
+
+        return lista;
     }
     /*
     **Fin codigo obtener usuarios leaders

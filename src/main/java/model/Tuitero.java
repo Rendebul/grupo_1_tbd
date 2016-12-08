@@ -1,22 +1,21 @@
 package model;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 
-public class  Tuitero{
-	public String nombre;
 
-	public Tuitero(String nombre){
-		this.nombre=nombre;
-	}
+public class Tuitero {
 
-	public void setNombre(String nombre){
-		this.nombre=nombre;
-	}
+    //falta places
+    private String name;
 
-	public String getNombre(){
-		return(this.nombre);
-	}
 
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+    public String getName() {
+        return this.name;
+    }
 }
