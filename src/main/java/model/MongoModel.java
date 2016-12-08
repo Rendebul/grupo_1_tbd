@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class MongoModel    {
     private Mongo mongo;
@@ -42,6 +43,8 @@ public class MongoModel    {
         this.db = mongo.getDB("tbd");
         this.collection = db.getCollection("tweets");
         //agregarEmoteScore();
+        //añadir coordenadas
+        agregarCoordenadas();
     }
     
     public void convertirFechas()
@@ -52,6 +55,60 @@ public class MongoModel    {
             DBObject document = cursor.next();
             DBObject updated = new BasicDBObject();
             updated.put("$set", new BasicDBObject("created_at", new Date((String)document.get("created_at"))));
+            this.collection.update(document, updated);
+        }
+    }
+
+    public void agregarCoordenadas()
+    {
+        CoordenadasModel coor[] = new CoordenadasModel[34];
+            coor[0] = new CoordenadasModel(-33.542156, -70.647184);
+            coor[1] = new CoordenadasModel(-33.403697, -70.713522);
+            coor[2] = new CoordenadasModel(-33.488703, -70.670953);
+            coor[3] = new CoordenadasModel(-33.538966, -70.619992);
+            coor[4] = new CoordenadasModel(-33.553833, -70.673269);
+            coor[5] = new CoordenadasModel(-33.49217, -70.70842);
+            coor[6] = new CoordenadasModel(-33.462054, -70.701824);
+            coor[7] = new CoordenadasModel(-33.420431, -70.66166);
+            coor[8] = new CoordenadasModel(-33.362547, -70.501523);
+            coor[9] = new CoordenadasModel(-33.591989, -70.705338);
+            coor[10] = new CoordenadasModel(-33.492765, -70.62899);
+            coor[11] = new CoordenadasModel(-33.40678, -70.640804);
+            coor[12] = new CoordenadasModel(-33.368822, -70.731123);
+            coor[13] = new CoordenadasModel(-33.49, -70.6);
+            coor[14] = new CoordenadasModel(-33.48598, -70.64976);
+            coor[15] = new CoordenadasModel(-33.533446, -70.582735);
+            coor[16] = new CoordenadasModel(-33.440885, -70.557476);
+            coor[17] = new CoordenadasModel(-33.518828, -70.694159);
+            coor[18] = new CoordenadasModel(-33.586674, -70.634802);
+            coor[19] = new CoordenadasModel(-33.429087, -70.730442);
+            coor[20] = new CoordenadasModel(-33.45099, -70.59298);
+            coor[21] = new CoordenadasModel(-33.37472, -70.63464);
+            coor[22] = new CoordenadasModel(-33.509344, -70.755464);
+            coor[23] = new CoordenadasModel(-33.440915, -70.755812);
+            coor[24] = new CoordenadasModel(-33.39629, -70.67024);
+            coor[25] = new CoordenadasModel(-33.41895, -70.702854);
+            coor[26] = new CoordenadasModel(-33.43198, -70.60951);
+            coor[27] = new CoordenadasModel(-33.44206, -70.71962);
+            coor[28] = new CoordenadasModel(-33.534594, -70.665977);
+            coor[29] = new CoordenadasModel(-33.473558, -70.55387);
+            coor[30] = new CoordenadasModel(-33.40866, -70.568613);
+            coor[31] = new CoordenadasModel(-33.59476, -70.57933);
+            coor[32] = new CoordenadasModel(-33.38957, -70.571421);
+            coor[33] = new CoordenadasModel(-33.437107, -70.650253);
+
+        DBCursor cursor = this.collection.find();
+        while(cursor.hasNext())
+        {
+            DBObject document = cursor.next();
+            int random = ThreadLocalRandom.current().nextInt(0, 34);
+            List<Double> listDob = new ArrayList<>();
+            listDob.add(coor[random].getX());
+            listDob.add(coor[random].getY());
+
+
+            DBObject updated = new BasicDBObject();
+            updated.put("$set", new BasicDBObject("geo", listDob));
             this.collection.update(document, updated);
         }
     }
