@@ -192,35 +192,56 @@ public class TwitterProcessorModel{
 
 	public List<Tuitero> getLeaders (Session session) {
 		String user;
-		List<Tuitero> leaders = new ArrayList<Tuitero>();
+		List<Tuitero> leaders = new ArrayList<>();
+		//limpieza
+		session.run("MATCH (n) SET n.reply_score=0, n.retweet_score=0, n.mention_score=0");
+		//creacion de las ponderaciones de los 3 tipos de relacion
+		session.run("MATCH (n)-[r:REPLY]->(p) WITH p as nodo, r.count as count, r as reply SET reply.score=10*count");
+		session.run("MATCH (n)-[r:RETWEET]->(p) WITH p as nodo, r.count as count, r as ret SET ret.score=3*count");
+		session.run("MATCH (n)-[r:MENTION]->(p) WITH p as nodo, r.count as count, r as men SET men.score=1*count");
+		//limpieza
+		session.run("MATCH (n) SET n.leader=0");
+		//guardar el score obtenido de todas sus relaciones ponderadas
+		session.run("MATCH (n)<-[r]-(p) WITH n as node, sum(r.score) as score SET node.leader=score");
+		//sumar el puntaje del nodo mas los puntajes de los nodos que se conectan a el
+		StatementResult result = session.run("MATCH (n)<-[r]-(p) WITH n.screen_name as name, sum(r.score) as alcance, sum(p.leader) as leader RETURN name as user, (alcance+leader) as total_score order by total_score desc LIMIT 10");
 
-		StatementResult result = session.run( String.format("MATCH (n)<-[*1..2]-(p) RETURN n.screen_name as user, count(p) as alcance order by alcance desc LIMIT 10") );
-		if (result.hasNext()) {
+		while (result.hasNext()) {
 			Record record =result.next();
 			user = record.get("user").toString();
-			user=user.substring(2);
-			Tuitero tuitero = new Tuitero(user);
+			user=user.substring(3, (user.length()-2));
+			Tuitero tuitero = new Tuitero();
+			tuitero.setName(user);
 			leaders.add(tuitero);
 		}
-		return(leaders);
+		return leaders;
 	}
 
 	public List<Tuitero> getSpreaders (Session session)  {
 		String user;
-		List<Tuitero> spreaders = new ArrayList<Tuitero>();
+		List<Tuitero> spreaders = new ArrayList<>();
 
-		session.run( String.format("MATCH (n) SET n.leader_score=0") );
-		session.run( String.format("MATCH (n)<-[*1..2]-(p) with count(p) as score, n as node SET node.leader_score=score") );
-		StatementResult result = session.run( String.format("MATCH (n)-[*1..2]->(p) with n as node, count(p) as spreader_score, n.leader_score as leader_score RETURN node.screen_name as user, (spreader_score*leader_score) as score order by score desc LIMIT 10") );
+		session.run("MATCH (n) SET n.reply_score=0, n.retweet_score=0, n.mention_score=0");
+		//creacion de las ponderaciones de los 3 tipos de relacion
+		session.run("MATCH (n)-[r:REPLY]->(p) WITH p as nodo, r.count as count, r as reply SET reply.score=10*count");
+		session.run("MATCH (n)-[r:RETWEET]->(p) WITH p as nodo, r.count as count, r as ret SET ret.score=3*count");
+		session.run("MATCH (n)-[r:MENTION]->(p) WITH p as nodo, r.count as count, r as men SET men.score=1*count");
+		//limpieza
+		session.run("MATCH (n) SET n.spreader=0");
+		//guardar el score obtenido de todas sus relaciones ponderadas
+		session.run("MATCH (n)-[r]->(p) WITH n as node, sum(r.score) as score SET node.spreader=score");
+		//sumar el puntaje del nodo mas los puntajes de los nodos a los que se conecta
+		StatementResult result = session.run("MATCH (n)-[r]->(p) WITH n.screen_name as name, sum(r.score) as alcance, sum(p.spreader) as spreader RETURN name as user, (alcance+spreader) as total_score order by total_score desc LIMIT 10");
 
-		if (result.hasNext()) {
+		while (result.hasNext()) {
 			Record record =result.next();
 			user = record.get("user").toString();
-			user=user.substring(2);
-			Tuitero tuitero = new Tuitero(user);
+			user=user.substring(3, (user.length()-2));
+			Tuitero tuitero = new Tuitero();
+			tuitero.setName(user);
 			spreaders.add(tuitero);
 		}
-		return(spreaders);
+		return spreaders;
 	}
 }
 

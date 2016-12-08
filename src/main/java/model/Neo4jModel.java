@@ -23,7 +23,7 @@ public class  Neo4jModel{
 			@SuppressWarnings("resource")
 			MongoModel mongo = new MongoModel();
 			
-			Driver driver = GraphDatabase.driver( "bolt://localhost", AuthTokens.basic( "neo4j", "matias" ) );
+			Driver driver = GraphDatabase.driver( "bolt://localhost", AuthTokens.basic( "neo4j", "0080273381" ) );
 			Session session = driver.session();
 
 			TwitterProcessorModel twitterProcessorModel = new TwitterProcessorModel();
@@ -39,12 +39,12 @@ public class  Neo4jModel{
 		public List<Tuitero> getLeaders()  {
 			@SuppressWarnings("resource")			
 			
-			Driver driver = GraphDatabase.driver( "bolt://localhost", AuthTokens.basic( "neo4j", "matias" ) );
+			Driver driver = GraphDatabase.driver( "bolt://localhost", AuthTokens.basic( "neo4j", "0080273381" ) );
 			Session session = driver.session();
 
 			TwitterProcessorModel twitterProcessorModel = new TwitterProcessorModel();
 
-			List<Tuitero> usersLeaders = new ArrayList<Tuitero>();
+			List<Tuitero> usersLeaders = new ArrayList<>();
 			usersLeaders = twitterProcessorModel.getLeaders(session);
 
 			session.close();
@@ -55,12 +55,12 @@ public class  Neo4jModel{
 		public List<Tuitero> getSpreaders() {
 			@SuppressWarnings("resource")			
 			
-			Driver driver = GraphDatabase.driver( "bolt://localhost", AuthTokens.basic( "neo4j", "matias" ) );
+			Driver driver = GraphDatabase.driver( "bolt://localhost", AuthTokens.basic( "neo4j", "0080273381" ) );
 			Session session = driver.session();
 
 			TwitterProcessorModel twitterProcessorModel = new TwitterProcessorModel();
 			
-			List<Tuitero> usersSpreaders = new ArrayList<Tuitero>();
+			List<Tuitero> usersSpreaders = new ArrayList<>();
 			usersSpreaders = twitterProcessorModel.getSpreaders(session);
 
 			session.close();
