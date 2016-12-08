@@ -192,6 +192,8 @@ public class TwitterProcessorModel{
 
 	public List<Tuitero> getLeaders (Session session) {
 		String user;
+		String total_score;
+		int score;
 		List<Tuitero> leaders = new ArrayList<>();
 		//limpieza
 		session.run("MATCH (n) SET n.reply_score=0, n.retweet_score=0, n.mention_score=0");
@@ -204,21 +206,27 @@ public class TwitterProcessorModel{
 		//guardar el score obtenido de todas sus relaciones ponderadas
 		session.run("MATCH (n)<-[r]-(p) WITH n as node, sum(r.score) as score SET node.leader=score");
 		//sumar el puntaje del nodo mas los puntajes de los nodos que se conectan a el
-		StatementResult result = session.run("MATCH (n)<-[r]-(p) WITH n.screen_name as name, sum(r.score) as alcance, sum(p.leader) as leader RETURN name as user, (alcance+leader) as total_score order by total_score desc LIMIT 10");
+		StatementResult result = session.run("MATCH (n)<-[r]-(p) WITH n.screen_name as name, sum(r.score) as alcance, sum(p.leader) as leader, sum(r.count) as cantidad RETURN name, (alcance+leader/cantidad) as total_score order by total_score desc LIMIT 10");
 
 		while (result.hasNext()) {
 			Record record =result.next();
 			user = record.get("user").toString();
-			user=user.substring(3, (user.length()-2));
+			total_score = record.get("total_score").toString();
+			score = Integer.parseInt(total_score);
+			user=user.substring(3, (user.length()-1));
 			Tuitero tuitero = new Tuitero();
 			tuitero.setName(user);
+			tuitero.setScore(score);
 			leaders.add(tuitero);
 		}
+
 		return leaders;
 	}
 
 	public List<Tuitero> getSpreaders (Session session)  {
 		String user;
+		String total_score;
+		int score;
 		List<Tuitero> spreaders = new ArrayList<>();
 
 		session.run("MATCH (n) SET n.reply_score=0, n.retweet_score=0, n.mention_score=0");
@@ -231,14 +239,17 @@ public class TwitterProcessorModel{
 		//guardar el score obtenido de todas sus relaciones ponderadas
 		session.run("MATCH (n)-[r]->(p) WITH n as node, sum(r.score) as score SET node.spreader=score");
 		//sumar el puntaje del nodo mas los puntajes de los nodos a los que se conecta
-		StatementResult result = session.run("MATCH (n)-[r]->(p) WITH n.screen_name as name, sum(r.score) as alcance, sum(p.spreader) as spreader RETURN name as user, (alcance+spreader) as total_score order by total_score desc LIMIT 10");
+		StatementResult result = session.run("MATCH (n)-[r]->(p) WITH n.screen_name as name, sum(r.score) as alcance, sum(p.spreader) as spreader, n.leader as importancia, p.leader as import, sum(r.count) as cantidad RETURN name as user, ((import*alcance/cantidad+spreader*importancia/cantidad)) as total_score order by total_score desc LIMIT 10");
 
 		while (result.hasNext()) {
 			Record record =result.next();
 			user = record.get("user").toString();
-			user=user.substring(3, (user.length()-2));
+			total_score = record.get("total_score").toString();
+			score = Integer.parseInt(total_score);
+			user=user.substring(3, (user.length()-1));
 			Tuitero tuitero = new Tuitero();
 			tuitero.setName(user);
+			tuitero.setScore(score);
 			spreaders.add(tuitero);
 		}
 		return spreaders;
