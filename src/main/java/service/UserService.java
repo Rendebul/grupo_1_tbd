@@ -73,7 +73,7 @@ public class UserService {
     */
     @GET
     @Path("leaders")
-    @Produces({"MediaType.APPLICATION_JSON"})
+    @Produces({"application/xml", "application/json"})
     public Response getLeaders() {
         Neo4jModel n4Leaders = new Neo4jModel();
         GenericEntity<List<Tuitero>> leaders = new GenericEntity<List<Tuitero>>(n4Leaders.getLeaders()) {};
@@ -88,7 +88,7 @@ public class UserService {
     */
     @GET
     @Path("spreaders")
-    @Produces({"MediaType.APPLICATION_JSON"})
+    @Produces({"application/xml", "application/json"})
     public Response getSpreaders() {
         Neo4jModel n4Spreaders = new Neo4jModel();
         GenericEntity<List<Tuitero>> spreaders = new GenericEntity<List<Tuitero>>(n4Spreaders.getSpreaders()) {};

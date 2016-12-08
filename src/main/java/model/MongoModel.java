@@ -249,7 +249,7 @@ public class MongoModel    {
                 DBObject document = cursor.next();
                 TweetModel data = new TweetModel();
                 data.setText((String) document.get("text"));
-                data.setEmoteScore((double) document.get("emote_score"));
+                data.setEmoteScore((Double)(document.get("emote_score")));
                 list.add(data);
             }
             return list;  

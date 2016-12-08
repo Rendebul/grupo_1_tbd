@@ -47,7 +47,9 @@ public class  Neo4jModel{
 			List<Tuitero> usersLeaders = new ArrayList<Tuitero>();
 			usersLeaders = twitterProcessorModel.getLeaders(session);
 
-			return(usersLeaders);
+			session.close();
+			driver.close();
+			return usersLeaders;
 		}
 
 		public List<Tuitero> getSpreaders() {
@@ -61,7 +63,9 @@ public class  Neo4jModel{
 			List<Tuitero> usersSpreaders = new ArrayList<Tuitero>();
 			usersSpreaders = twitterProcessorModel.getSpreaders(session);
 
-			return(usersSpreaders);
+			session.close();
+			driver.close();
+			return usersSpreaders;
 		}
 	
 
