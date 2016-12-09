@@ -206,7 +206,7 @@ public class TwitterProcessorModel{
 		//guardar el score obtenido de todas sus relaciones ponderadas
 		session.run("MATCH (n)<-[r]-(p) WITH n as node, sum(r.score) as score SET node.leader=score");
 		//sumar el puntaje del nodo mas los puntajes de los nodos que se conectan a el
-		StatementResult result = session.run("MATCH (n)<-[r]-(p) WITH n.screen_name as name, sum(r.score) as alcance, sum(p.leader) as leader, sum(r.count) as cantidad RETURN name, (alcance+leader/cantidad) as total_score order by total_score desc LIMIT 10");
+		StatementResult result = session.run("MATCH (n)<-[r]-(p) WITH n.screen_name as name, sum(r.score) as alcance, sum(p.leader) as leader, sum(r.count) as cantidad RETURN name as user, (alcance+leader/cantidad) as total_score order by total_score desc LIMIT 10");
 
 		while (result.hasNext()) {
 			Record record =result.next();
