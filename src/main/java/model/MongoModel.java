@@ -44,7 +44,8 @@ public class MongoModel    {
         this.collection = db.getCollection("tweets");
         //agregarEmoteScore();
         //añadir coordenadas
-        agregarCoordenadas();
+        //agregarCoordenadas();
+        agregarComunas();
     }
     
     public void convertirFechas()
@@ -59,7 +60,7 @@ public class MongoModel    {
         }
     }
 
-    public void agregarCoordenadas()
+    /*public void agregarCoordenadas()
     {
         CoordenadasModel coor[] = new CoordenadasModel[34];
         for(int i = 0; i < 34; i++)
@@ -149,6 +150,26 @@ public class MongoModel    {
             //añadir coordenadas en "geo"
             DBObject updated = new BasicDBObject();
             updated.put("$set", new BasicDBObject("geo", listDob));
+            this.collection.update(document, updated);
+        }
+    }*/
+
+    public void agregarComunas()
+    {
+        String comunas[] = {"Cerrillos","Cerro Navia","Conchalí","El Bosque","Estación Central","Huechuraba", "Independencia","La Cisterna","La Florida","La Granja","La Pintana","La Reina","Las Condes","Lo Barnechea","Lo Espejo","Lo Prado","Macul", "Maipú","Ñuñoa","Pedro Aguirre Cerda","Peñalolén","Providencia","Pudahuel","Quilicura","Quinta Normal","Recoleta","Renca","San Joaquín","San Miguel","San Ramón","Santiago","Vitacura"};
+
+
+        DBCursor cursor = this.collection.find();
+        while(cursor.hasNext())
+        {
+            DBObject document = cursor.next();
+
+            //elegir comuna random
+            int random = ThreadLocalRandom.current().nextInt(0, comunas.length);
+
+            //añadir coordenadas en "geo"
+            DBObject updated = new BasicDBObject();
+            updated.put("$set", new BasicDBObject("geo", comunas[random]));
             this.collection.update(document, updated);
         }
     }
@@ -258,7 +279,7 @@ public class MongoModel    {
             data.setRetweeted((boolean) document.get("retweeted"));
             data.setSource((String) document.get("source"));
             data.setTruncated((boolean) document.get("truncated"));
-            data.setCoordinates((ArrayList) document.get("geo"));
+            data.setComuna((String) document.get("geo"));
 
             list.add(data);
         }
@@ -291,7 +312,7 @@ public class MongoModel    {
                 TweetModel data = new TweetModel();
                 data.setText((String) document.get("text"));
                 data.setEmoteScore((Double)(document.get("emote_score")));
-                data.setCoordinates((ArrayList) document.get("geo"));
+                data.setComuna((String) document.get("geo"));
                 list.add(data);
             }
             return list;  
@@ -312,7 +333,7 @@ public class MongoModel    {
             TweetModel data = new TweetModel();
             data.setText((String) document.get("text"));
             data.setEmoteScore((Double)(document.get("emote_score")));
-            data.setCoordinates((ArrayList) document.get("geo"));
+            data.setComuna((String) document.get("geo"));
             list.add(data);
         }
 
