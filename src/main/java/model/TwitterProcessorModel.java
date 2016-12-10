@@ -105,21 +105,6 @@ public class TwitterProcessorModel{
 					}
 				}
 
-				/*
-				original
-				if (userId.equals(userRetuiteadoId)) { //si el usuario se reuiteo a si mismo
-					session.run( String.format("MERGE (%s {screen_name:\"%s\"})-[retw:RETWEET]->(%s {screen_name:\"%s\"})", userId, userId, userRetuiteadoId, userRetuiteadoId) );
-				}
-				else{
-					session.run( String.format("MERGE (%s:User {screen_name:\"%s\"}) MERGE (%s:User {screen_name:\"%s\"}) CREATE UNIQUE (%s) - [retw:RETWEET] -> (%s)", userId, userId, userRetuiteadoId, userRetuiteadoId, userId, userRetuiteadoId) );
-				}*/
-
-				//System.out.println(userId + "  RETWEET  " +userRetuiteadoId);
-				//session.run( String.format("CREATE (%s:User {screen_name:\"%s\"})", userId, userId) );
-				//session.run( String.format("CREATE (%s:User {screen_name:\"%s\"})", userRetuiteadoId, userRetuiteadoId) );
-				//System.out.println(String.format("CREATE (%s)-[:RETWEET]->(%s)", userId, userRetuiteadoId) );
-				//session.run( String.format("MERGE (%s)-[:RETWEET]->(%s)", userId, userRetuiteadoId) );
-
 			}
 
 			//guardar menciones
@@ -180,22 +165,7 @@ public class TwitterProcessorModel{
 						}
 					}
 
-			    	/* ORIGINAL
-			    	if (userId.equals(userMentionedId)) {//si el usuario se menciona a si mismo
-			    		session.run( String.format("MERGE (%s)-[ment:MENTION]->(%s)", userId, userMentionedId) );			    		
-			    	}		    	
-			    	else{
-				    	//session.run( String.format("CREATE (%s:User {screen_name:\"%s\"})", userMentionedId, userMentionedId) );
-				    	//System.out.println(String.format("MERGE (%s)-[:MENTION]->(%s)", userId, userMentionedId));
-				    	
-				    	session.run( String.format("MATCH (%s:User {screen_name:\"%s\"}) MERGE (%s:User {screen_name:\"%s\"}) CREATE UNIQUE (%s) - [ment:MENTION] -> (%s)", userId, userId, userMentionedId, userMentionedId, userId, userMentionedId) );
-
-				    	//session.run( String.format("MERGE (%s)-[:MENTION]->(%s)", userId, userMentionedId) );
-			    	}*/
-			    }
-			    
-
-
+			    }			  
 			}
 		}
 	}
