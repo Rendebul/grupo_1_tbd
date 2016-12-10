@@ -7,6 +7,18 @@ public class ComunaModel
 	
 	private String nombre;
 	private int tweets;
+	private Double emoteScoreAvg;
+
+
+	public Double getEmoteScoreAvg()
+	{
+		return this.emoteScoreAvg;
+	}
+
+	public void setEmoteScoreAvg(Double emoteScoreAvg)
+	{
+		this.emoteScoreAvg = emoteScoreAvg;
+	}
 
 
 	public String getNombre()

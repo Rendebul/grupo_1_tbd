@@ -184,9 +184,20 @@ public class MongoModel    {
             ComunaModel comuna = new ComunaModel();
 
             int cantTweets = this.collection.find(new BasicDBObject("geo", comunas[i])).count();
+            DBCursor cursor = this.collection.find(new BasicDBObject("geo", comunas[i]));
+
+            double emoteScoreProm = 0.0;    
+                while(cursor.hasNext())
+                {
+                    DBObject document = cursor.next();
+                    emoteScoreProm += (Double)document.get("emote_score");
+                }
+
+            emoteScoreProm /= cantTweets;
 
             comuna.setNombre(comunas[i]);
             comuna.setTweets(cantTweets);
+            comuna.setEmoteScoreAvg(emoteScoreProm);
             list.add(comuna);
         }
 
@@ -210,9 +221,22 @@ public class MongoModel    {
 
                 int cantTweets = this.collection.find(new BasicDBObject("$text", new BasicDBObject("$search", searchString))
                     .append("geo", comunas[i])).count();
+                DBCursor cursor = this.collection.find(new BasicDBObject("$text", new BasicDBObject("$search", searchString))
+                    .append("geo", comunas[i]));
+            
+                //agregando promedio emote_score
+                double emoteScoreProm = 0.0;
+                while(cursor.hasNext())
+                {
+                    DBObject document = cursor.next();
+                    emoteScoreProm += (Double)document.get("emote_score");
+                }
+
+                emoteScoreProm /= cantTweets;
 
                 comuna.setNombre(comunas[i]);
                 comuna.setTweets(cantTweets);
+                comuna.setEmoteScoreAvg(emoteScoreProm);
                 listC.add(comuna);
             }
             festivalComuna.setComunas(listC);
