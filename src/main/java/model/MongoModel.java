@@ -173,6 +173,54 @@ public class MongoModel    {
             this.collection.update(document, updated);
         }
     }
+
+    public List<ComunaModel> tweetsPorComuna()
+    {
+        String comunas[] = {"Cerrillos","Cerro Navia","Conchalí","El Bosque","Estación Central","Huechuraba", "Independencia","La Cisterna","La Florida","La Granja","La Pintana","La Reina","Las Condes","Lo Barnechea","Lo Espejo","Lo Prado","Macul", "Maipú","Ñuñoa","Pedro Aguirre Cerda","Peñalolén","Providencia","Pudahuel","Quilicura","Quinta Normal","Recoleta","Renca","San Joaquín","San Miguel","San Ramón","Santiago","Vitacura"};   
+        List<ComunaModel> list = new ArrayList<>();
+
+        for(int i = 0; i < comunas.length; i++)
+        {
+            ComunaModel comuna = new ComunaModel();
+
+            int cantTweets = this.collection.find(new BasicDBObject("geo", comunas[i])).count();
+
+            comuna.setNombre(comunas[i]);
+            comuna.setTweets(cantTweets);
+            list.add(comuna);
+        }
+
+        return list;
+    }
+
+    public List<FestivalComunaModel> tweetsFestivalComuna(List<Festival> festivales)
+    {
+        List<FestivalComunaModel> listFC = new ArrayList<>();
+        String comunas[] = {"Cerrillos","Cerro Navia","Conchalí","El Bosque","Estación Central","Huechuraba", "Independencia","La Cisterna","La Florida","La Granja","La Pintana","La Reina","Las Condes","Lo Barnechea","Lo Espejo","Lo Prado","Macul", "Maipú","Ñuñoa","Pedro Aguirre Cerda","Peñalolén","Providencia","Pudahuel","Quilicura","Quinta Normal","Recoleta","Renca","San Joaquín","San Miguel","San Ramón","Santiago","Vitacura"};   
+        for(Festival festival : festivales)
+        {
+            FestivalComunaModel festivalComuna = new FestivalComunaModel();
+            festivalComuna.setFestival(festival.getFestivalName());
+            String searchString = festival.getFilters();
+            List<ComunaModel> listC = new ArrayList<>();
+
+            for(int i = 0; i < comunas.length; i++)
+            {
+                ComunaModel comuna = new ComunaModel();
+
+                int cantTweets = this.collection.find(new BasicDBObject("$text", new BasicDBObject("$search", searchString))
+                    .append("geo", comunas[i])).count();
+
+                comuna.setNombre(comunas[i]);
+                comuna.setTweets(cantTweets);
+                listC.add(comuna);
+            }
+            festivalComuna.setComunas(listC);
+            listFC.add(festivalComuna);
+        }
+
+        return listFC;
+    }
     
     public void agregarEmoteScore()
     {
