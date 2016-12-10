@@ -134,6 +134,7 @@ public class TwitterProcessorModel{
 			    for (int i=0;i<screenNames.size();i+=2 ) {
 			    	String[] parts = screenNames.get(i).split("=");
 			    	userMentionedId="u_"+parts[1].replace(",", "");	
+			    	userMentionedId=userMentionedId.toLowerCase();
 			    	String[] parts2 = screenNames.get(i+1).split("=");
 			    	id2="u_"+parts2[1].replace(",", "");
 			    	//System.out.println("Haciendo match");
