@@ -29,6 +29,8 @@ import model.IndiceModel;
 import model.MongoModel;
 import model.DataModel;
 import model.TweetModel;
+import model.ComunaModel;
+import model.FestivalComunaModel;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -141,5 +143,21 @@ public class MongoSearchService {
         }
     }
 
+    @GET
+    @Path("tweetsporcomuna")
+    @Produces({"application/xml", "application/json"})
+    public List<ComunaModel> comunas(){
+        MongoModel mongo = new MongoModel();
+        return mongo.tweetsPorComuna();
+    }
+
+    @GET
+    @Path("tweetsporfestivalcomuna")
+    @Produces({"application/xml", "application/json"})
+    public List<FestivalComunaModel> festivalComunas(){
+        MongoModel mongo = new MongoModel();
+        List<Festival> festivales = festivalFacadeEJB.findAll();
+        return mongo.tweetsFestivalComuna(festivales);
+    }
 
 }

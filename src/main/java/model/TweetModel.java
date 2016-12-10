@@ -37,6 +37,17 @@ public class TweetModel {
     private UserModel user;
     private PlaceModel place;
     private double emoteScore;
+    private String comuna;
+
+    public void setComuna(String comuna)
+    {
+        this.comuna = comuna;
+    }
+
+    public String getComuna()
+    {
+        return this.comuna;
+    }
 
     public void setEmoteScore(double emoteScore)
     {
