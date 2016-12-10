@@ -9,6 +9,7 @@ public class Tuitero {
 
     //falta places
     private String name;
+    private String id;
     private int score;
 
 
@@ -18,6 +19,13 @@ public class Tuitero {
     }
     public String getName() {
         return this.name;
+    }
+    public void setId(String id)
+    {
+        this.id = id;
+    }
+    public String getId() {
+        return this.id;
     }
     public void setScore(int score)
     {
