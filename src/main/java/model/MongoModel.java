@@ -42,10 +42,11 @@ public class MongoModel    {
         this.textSearchCommand = new BasicDBObject();
         this.db = mongo.getDB("tbd");
         this.collection = db.getCollection("tweets");
+        // Las siguientes líneas son para los fix en la base de datos Mongo.
+        // Decomentar cuando se quiere realizar el fix faltante.
+        //convertirFechas();
         //agregarEmoteScore();
-        //añadir coordenadas
-        //agregarCoordenadas();
-        agregarComunas();
+        //agregarComunas();
     }
     
     public void convertirFechas()
