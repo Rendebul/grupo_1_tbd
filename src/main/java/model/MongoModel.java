@@ -231,8 +231,10 @@ public class MongoModel    {
                     DBObject document = cursor.next();
                     emoteScoreProm += (Double)document.get("emote_score");
                 }
-
-                emoteScoreProm /= cantTweets;
+                if(cantTweets == 0)
+                    emoteScoreProm = 0.0;
+                else
+                    emoteScoreProm /= cantTweets;
 
                 comuna.setNombre(comunas[i]);
                 comuna.setTweets(cantTweets);
