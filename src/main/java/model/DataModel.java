@@ -71,4 +71,18 @@ public class DataModel implements Serializable {
     {
         return this.score;
     }
+
+    public void setScore()
+    {
+        int largo = this.tweets.size();
+        long contador = 0;
+        for (TweetModel tweet : this.tweets ) {
+            contador += tweet.getEmoteScore();
+        }
+        if (largo > 0) {
+            this.score = contador/largo;    
+        } else {
+            this.score = 0;
+        }
+    }
 }

@@ -128,6 +128,7 @@ public class MongoSearchService {
                     dato.setTweets(tweets);
                     dato.setFecha(dia);
                     dato.setContador(tweets.size());
+                    dato.setScore();
                     datos.add(dato);
                     dateIterator = mongo.addDays(dateIterator, 1);
                 }

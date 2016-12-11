@@ -23,7 +23,7 @@ public class  Neo4jModel{
 			@SuppressWarnings("resource")
 			MongoModel mongo = new MongoModel();
 			
-			Driver driver = GraphDatabase.driver( "bolt://localhost", AuthTokens.basic( "neo4j", "0080273381" ) );
+			Driver driver = GraphDatabase.driver( "bolt://localhost", AuthTokens.basic( "neo4j", "matias" ) );
 			Session session = driver.session();
 
 			TwitterProcessorModel twitterProcessorModel = new TwitterProcessorModel();
@@ -39,7 +39,7 @@ public class  Neo4jModel{
 		public List<Tuitero> getLeaders()  {
 			@SuppressWarnings("resource")			
 			
-			Driver driver = GraphDatabase.driver( "bolt://localhost", AuthTokens.basic( "neo4j", "0080273381" ) );
+			Driver driver = GraphDatabase.driver( "bolt://localhost", AuthTokens.basic( "neo4j", "matias" ) );
 			Session session = driver.session();
 
 			TwitterProcessorModel twitterProcessorModel = new TwitterProcessorModel();
@@ -55,7 +55,7 @@ public class  Neo4jModel{
 		public List<Tuitero> getSpreaders() {
 			@SuppressWarnings("resource")			
 			
-			Driver driver = GraphDatabase.driver( "bolt://localhost", AuthTokens.basic( "neo4j", "0080273381" ) );
+			Driver driver = GraphDatabase.driver( "bolt://localhost", AuthTokens.basic( "neo4j", "matias" ) );
 			Session session = driver.session();
 
 			TwitterProcessorModel twitterProcessorModel = new TwitterProcessorModel();
