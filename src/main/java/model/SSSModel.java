@@ -73,6 +73,7 @@ public class SSSModel {
 	}
 	
 	//función que determina la distancia de levenshtein (distancia entre 2 palabras)
+	//obtenido de https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#Java
 	public int levenshteinDistance (String lhs, String rhs) {                          
 	    int len0 = lhs.length() + 1;                                                     
 	    int len1 = rhs.length() + 1;                                                     
