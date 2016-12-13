@@ -308,16 +308,6 @@ public class MongoModel    {
                     continue;
                 }
 
-                //bolsa de palabras positiva
-                ArrayList<String> resultados = sss.buildSSS(pivotesPos, bolsaPos, compareWord, 3);
-                if(!resultados.isEmpty())
-                    if(setPositivas.contains(resultados.get(0)))                
-                    {
-                        System.out.println("pos: "+compareWord);
-                        contPos++;
-                        continue;
-                    }
-
                 //ver si palabra es positiva
                 if(setPositivas2.contains(compareWord))
                 {
@@ -326,35 +316,43 @@ public class MongoModel    {
                     continue;
                 }
 
-                //bolsa de palabras positiva 2
-                ArrayList<String> resultados2 = sss.buildSSS(pivotesPos2, bolsaPos2, compareWord, 3);
-                if(!resultados2.isEmpty())
-                    if(setPositivas2.contains(resultados2.get(0)))                
-                    {
-                        System.out.println("pos: "+compareWord);
-                        contPos++;
-                        continue;
-                    }
-
-
                 //ver si palabra es negativa
                 if(setNegativas.contains(compareWord.toLowerCase()))
                 {
                     contNeg++;
                     System.out.println("neg: "+compareWord);
                     continue;
+                }else{
+
+                    //bolsa de palabras positiva
+                    ArrayList<String> resultados = sss.buildSSS(pivotesPos, bolsaPos, compareWord, 3);
+                    if(!resultados.isEmpty())
+                        if(setPositivas.contains(resultados.get(0)))                
+                        {
+                            System.out.println("pos: "+compareWord);
+                            contPos++;
+                            continue;
+                        }
+                    //bolsa de palabras positiva 2
+                    ArrayList<String> resultados2 = sss.buildSSS(pivotesPos2, bolsaPos2, compareWord, 3);
+                    if(!resultados2.isEmpty())
+                        if(setPositivas2.contains(resultados2.get(0)))                
+                        {
+                            System.out.println("pos: "+compareWord);
+                            contPos++;
+                            continue;
+                        }
+                    //bolsa de palabras negativa
+                    ArrayList<String> resultados3 = sss.buildSSS(pivotesNeg, bolsaNeg, compareWord, 3);
+                    if(!resultados3.isEmpty())
+                        if(setNegativas.contains(resultados3.get(0)))                
+                        {
+                            System.out.println("pos: "+compareWord);
+                            contNeg++;
+                            continue;
+                        }
                 }
 
-
-                //bolsa de palabras negativa
-                ArrayList<String> resultados3 = sss.buildSSS(pivotesNeg, bolsaNeg, compareWord, 3);
-                if(!resultados3.isEmpty())
-                    if(setNegativas.contains(resultados3.get(0)))                
-                    {
-                        System.out.println("pos: "+compareWord);
-                        contNeg++;
-                        continue;
-                    }
 
                 contNeu++;
             }
