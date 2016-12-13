@@ -196,6 +196,9 @@ public class SSSModel {
 				objetoFinal.add(o);
 			}
 		}
+		if(objetoFinal.isEmpty()){
+			objetoFinal.add("---");
+		}
 		return objetoFinal;
 	}
 	
