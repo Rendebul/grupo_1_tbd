@@ -31,6 +31,7 @@ import model.DataModel;
 import model.TweetModel;
 import model.ComunaModel;
 import model.FestivalComunaModel;
+import model.SSSModel;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;

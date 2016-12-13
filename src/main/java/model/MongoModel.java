@@ -45,7 +45,7 @@ public class MongoModel    {
         // Las siguientes líneas son para los fix en la base de datos Mongo.
         // Decomentar cuando se quiere realizar el fix faltante.
         //convertirFechas();
-        //agregarEmoteScore();
+        agregarEmoteScore();
         //agregarComunas();
     }
     
@@ -262,6 +262,25 @@ public class MongoModel    {
         Set<String> setPositivas2 = new HashSet<String>(Arrays.asList(tokenPos2));
         Set<String> setNegativas = new HashSet<String>(Arrays.asList(tokenNeg));
         Set<String> setStopwords = new HashSet<String>(Arrays.asList(stopwords));
+        SSSModel sss = new SSSModel();
+
+
+        //agregado sss para verificar que weones no se equivoquen al escririb/////////////////////////7
+
+        //maxima para cada una de las bolsas de palabras
+        ArrayList<String> bolsaPos = new ArrayList<String>(Arrays.asList(tokenPos));
+        ArrayList<String> bolsaPos2 = new ArrayList<String>(Arrays.asList(tokenPos2));
+        ArrayList<String> bolsaNeg = new ArrayList<String>(Arrays.asList(tokenNeg));
+
+
+        int maximaPos = sss.maximaDistancia(bolsaPos);
+        int maximaPos2 = sss.maximaDistancia(bolsaPos2);
+        int maximaNeg = sss.maximaDistancia(bolsaNeg);
+
+        //pivotes para cada una de las bolsas de palabras
+        ArrayList<String> pivotesPos = sss.seleccionPivotes(bolsaPos,maximaPos,0.8);
+        ArrayList<String> pivotesPos2 = sss.seleccionPivotes(bolsaPos2,maximaPos2,0.8);
+        ArrayList<String> pivotesNeg = sss.seleccionPivotes(bolsaNeg,maximaNeg,0.8);
 
         DBCursor cursor = this.collection.find();
         while(cursor.hasNext())
@@ -281,24 +300,62 @@ public class MongoModel    {
 
             for(String compareWord : textList)
             {
+                //ver si palabra es positiva
                 if(setPositivas.contains(compareWord))
                 {
                     System.out.println("pos: "+compareWord);
                     contPos++;
                     continue;
                 }
+
+                //bolsa de palabras positiva
+                ArrayList<String> resultados = sss.buildSSS(pivotesPos, bolsaPos, compareWord, 3);
+                if(!resultados.isEmpty())
+                    if(setPositivas.contains(resultados.get(0)))                
+                    {
+                        System.out.println("pos: "+compareWord);
+                        contPos++;
+                        continue;
+                    }
+
+                //ver si palabra es positiva
                 if(setPositivas2.contains(compareWord))
                 {
                     contPos++;
                     System.out.println("pos: "+compareWord);
                     continue;
                 }
+
+                //bolsa de palabras positiva 2
+                ArrayList<String> resultados2 = sss.buildSSS(pivotesPos2, bolsaPos2, compareWord, 3);
+                if(!resultados2.isEmpty())
+                    if(setPositivas2.contains(resultados2.get(0)))                
+                    {
+                        System.out.println("pos: "+compareWord);
+                        contPos++;
+                        continue;
+                    }
+
+
+                //ver si palabra es negativa
                 if(setNegativas.contains(compareWord.toLowerCase()))
                 {
                     contNeg++;
                     System.out.println("neg: "+compareWord);
                     continue;
                 }
+
+
+                //bolsa de palabras negativa
+                ArrayList<String> resultados3 = sss.buildSSS(pivotesNeg, bolsaNeg, compareWord, 3);
+                if(!resultados3.isEmpty())
+                    if(setNegativas.contains(resultados3.get(0)))                
+                    {
+                        System.out.println("pos: "+compareWord);
+                        contNeg++;
+                        continue;
+                    }
+
                 contNeu++;
             }
 

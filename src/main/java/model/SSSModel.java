@@ -1,4 +1,4 @@
-package main.java.model;
+package model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,6 +7,7 @@ public class SSSModel {
 	
 	private ArrayList<String> objetos;
 	
+	/*
 	public SSSModel(){
 		this.objetos = new ArrayList<String>(Arrays.asList(
 				"Lollapalooza", "Creamfields", "Fauna Primavera", 
@@ -70,7 +71,7 @@ public class SSSModel {
 				"Under-X","9Milliz","B-Freqz",
 				"Hans Reverze Noise","Happy Tweekay","Rick Mitchells",
 				"Stormerz","Tricz","Yurner"));
-	}
+	}*/
 	
 	//función que determina la distancia de levenshtein (distancia entre 2 palabras)
 	//obtenido de https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#Java
